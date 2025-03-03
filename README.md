@@ -35,7 +35,7 @@ Iremos criar um projeto chamado `MeusLeads` onde você terá a liberdade de cria
 
  - Crie uma página e a api de cadastro para registrar o lead.
  - Crie uma página e a api de autenticação usando a tecnologia que voce preferir(OpenID, JWT, OAuth e etc...).
- - Crie uma página e a api que irá cadastrar, listar, editar e remover uma tarefa(CRUD), importante se atentar a não deixar desprotegido para quem não estiver logado acessar essa página ou rotas da api.
+ - Crie uma página e a api que irá cadastrar, listar, editar e remover um lead(CRUD), importante se atentar a não deixar desprotegido para quem não estiver logado acessar essa página ou rotas da api.
  - Coloque a função sair onde ele irá para página de autenticação.
  - Só aceitaremos desafios entregues em repositórios.
  - Faça o Fork desse repositório e responda o desafio em um projeto com o seguinte nome: studiomega-desafio-fullstack-nome-sobrenome;
