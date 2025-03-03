@@ -2,7 +2,9 @@
 
 Este desafio faz parte do processo seletivo da Studiomega.
 
-A Studiomega é ...
+Somos a Studiomega Comunicação & Inovação, uma agência 360º de publicidade e marketing digital. Com 17 anos de experiencia, construímos grandes marcas usando uma mistura única de criatividade e desempenho.
+Vamos além da publicidade e propaganda, somos um ecossistema de negócios em crescimento exponencial. No nosso núcleo de inovação utilizamos a tecnologia para desenvolver soluções estratégicas que potencializam negócios e resultados. 
+Na Studiomega, cada projeto é uma oportunidade de inovar, conectar e transformar. 🚀
 
 ## Objetivo 
 
@@ -25,7 +27,7 @@ Iremos criar um projeto chamado `MeusLeads` onde você terá a liberdade de cria
 
 ## Considerações 
 
- - Este desafio precisa ser entregue na data estipulada no email que foi mandado esse teste, se não tiver tempo para terminar o projeto por algum motivo, nos envie mesmo assim, iremos avaliar o que foi feito até o momento.
+ - Este desafio deve ser entregue dentro do prazo estipulado no e-mail em que foi enviado, se não tiver tempo para terminar o projeto por algum motivo, nos envie mesmo assim, iremos avaliar o que foi feito até o momento.
  - Não limitamos o uso de ferramentas ou tecnologias no desafio, queremos perfis que foquem nos resultados.
  - Escreva nas melhores práticas que voce conhecer, todos os detalhes serão avaliados pela nossa equipe.
  
