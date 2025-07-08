@@ -22,7 +22,7 @@ Iremos criar um projeto chamado `MeusLeads` onde você terá a liberdade de cria
  - Criar registro e autenticação do usuário e manter logado na aplicação.
  - Responder os httpstatus code igual a documentação da API.
  - Criar e consumir API para manipular os dados(CRUD).
- - Ter o botão deslogar, limpando o usuário da sessão e não deixando acessar pela barra de navegação a lista de afazeres.
+ - Ter o botão deslogar, limpando o usuário da sessão e não deixando acessar pela barra de navegação a lista de leads.
 
 
 ## Considerações 
