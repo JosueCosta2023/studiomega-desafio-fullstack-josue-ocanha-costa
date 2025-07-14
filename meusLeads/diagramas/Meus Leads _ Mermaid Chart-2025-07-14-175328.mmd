@@ -1,0 +1,19 @@
+erDiagram
+	direction TB
+	USERS {
+		int id PK ""  
+		string name  ""  
+		string email UK ""  
+		string password  ""  
+	}
+
+	LEADS {
+		int id PK ""  
+		string name  ""  
+		string email  ""  
+		string phone  ""  
+		int created_by FK ""  
+	}
+
+	USERS||--o{LEADS:"cria"
+
