@@ -8,6 +8,7 @@ const prisma = new PrismaClient();
 router.get("/", authenticateJWT, async (req, res)=> {
     try {
         const leads = await prisma.lead.findMany({
+            where: {userId: req.user.id},
             select: {
                 id: true,
                 name: true,
