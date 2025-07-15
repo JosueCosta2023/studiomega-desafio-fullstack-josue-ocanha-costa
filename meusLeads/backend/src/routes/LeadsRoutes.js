@@ -29,14 +29,14 @@ router.get("/", async (req, res)=> {
 
 router.post("/", authenticateJWT, async (req, res) => {
     try {
-        const {name, email, phone, message, userId} = req.body;
+        const {name, email, phone, message} = req.body;
 
         if(!name || !email || !userId){
             return res.status(400).json({error: "Nome, Email e userId são obrigatorios."})
         }
 
         const lead = await prisma.lead.create({
-            data: {name, email, phone, message, userId}
+            data: {name, email, phone, message, userId: req.user.id}
         })
 
         res.status(201).json({message: "Lead cadastrado com sucesso!", lead})
@@ -101,12 +101,12 @@ router.patch("/:id",authenticateJWT, async (req, res) => {
         if(phone) data.phone = phone;
         if(message) data.message = message;
 
-        const updateLead = await prisma.lead.update({
+        await prisma.lead.update({
             where: {id},
             data
         })
 
-        res.status(204).json({message: "Lead atualizado com sucesso", lead: updateLead})
+        res.status(204).send()
 
         
     } catch (error) {

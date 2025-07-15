@@ -14,12 +14,12 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
     res.json({ user: req.user })
 })
 
-router.post("/register", async (req, res) => {
+router.post("/users", async (req, res) => {
     const { name, email, password } = req.body;
 
     // Validaçao
     if (!name || !email || !password) {
-        return res.status(422).json({ error: "Todos os campos sao obrigatorios." })
+        return res.status(400).json({ error: "Todos os campos sao obrigatorios." })
     }
 
     try {
@@ -67,7 +67,7 @@ router.delete("/users/:id", authenticateJWT, async (req, res) => {
         const id = Number(req.params.id);
         await prisma.user.delete({ where: { id } })
 
-        res.status(204).json({})
+        res.status(204).send()
 
     } catch (error) {
         console.error("Falha ao deletar usuario:", error);
@@ -97,7 +97,7 @@ router.put("/users/:id", authenticateJWT, async (req, res) => {
         })
 
 
-        res.status(204).json({})
+        res.status(204).send()
 
     } catch (error) {
         console.error("Falha ao atualizar dados do usuario:", error);
@@ -105,7 +105,7 @@ router.put("/users/:id", authenticateJWT, async (req, res) => {
     }
 })
 
-router.post("/login", async (req, res) => {
+router.post("/users/auth", async (req, res) => {
 
     const { email, password } = req.body;
 
