@@ -5,7 +5,7 @@ const authenticateJWT = require("../middlewares/auth");
 const prisma = new PrismaClient();
 
 
-router.get("/", async (req, res)=> {
+router.get("/", authenticateJWT, async (req, res)=> {
     try {
         const leads = await prisma.lead.findMany({
             select: {
@@ -14,7 +14,6 @@ router.get("/", async (req, res)=> {
                 email: true,
                 phone: true,
                 userId: true,
-                user: true
             }
         })
 
@@ -26,13 +25,12 @@ router.get("/", async (req, res)=> {
     }
 })
 
-
 router.post("/", authenticateJWT, async (req, res) => {
     try {
         const {name, email, phone, message} = req.body;
 
-        if(!name || !email || !userId){
-            return res.status(400).json({error: "Nome, Email e userId são obrigatorios."})
+        if(!name || !email || !phone){
+            return res.status(400).json({error: "Nome, Email e telefone são obrigatorios."})
         }
 
         const lead = await prisma.lead.create({
@@ -68,7 +66,7 @@ router.delete("/:id", authenticateJWT, async (req, res) => {
         }
        })
 
-        res.status(200).json({message: "Lead deletado com sucesso"})
+        res.status(204).send()
         
     } catch (error) {
         console.error("Falha ao deletar lead", error)
@@ -100,6 +98,11 @@ router.patch("/:id",authenticateJWT, async (req, res) => {
         if(email) data.email = email;
         if(phone) data.phone = phone;
         if(message) data.message = message;
+
+        // Validação de campos
+        if(Object.keys(data).length === 0){
+            return res.status(422).json({error: "Envie pelo menos um campo para atualizar."})
+        }
 
         await prisma.lead.update({
             where: {id},
