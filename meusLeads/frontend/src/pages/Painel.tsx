@@ -3,6 +3,7 @@ import { LogOut, Settings, Table } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
 import { jwtDecode } from "jwt-decode";
 
+
 const Painel = () => {
 
   const token = localStorage.getItem("token");
@@ -15,8 +16,6 @@ const Painel = () => {
       user = null
     }
   }
-
-   console.log(user)
 
   const handleLogout = () => {
     localStorage.removeItem("token")

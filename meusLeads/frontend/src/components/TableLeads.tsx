@@ -3,28 +3,20 @@ import { useState } from "react";
 import FormularioLeads from "./FormularioLeads";
 import ModalConfirmacao from "./ModalConfirmacao";
 import ModalAlerta from "./ModalAlerta";
+import {useLeads} from "../hooks/useLeads"
+import axios from "axios"
 
-const initialLeads = [
-  {
-    id: 1,
-    nome: "Karen Flores",
-    telefone: "(11) 99999-9999",
-    email: "karen@email.com",
-    mensagem: "Nao estou disponivel",
-    avatar: "https://randomuser.me/api/portraits/women/65.jpg",
-  },
-  {
-    id: 2,
-    nome: "Paulo Victor",
-    telefone: "(21) 98888-8888",
-    email: "paulo@email.com",
-    mensagem: "Estou disponivel",
-    avatar: "https://randomuser.me/api/portraits/men/32.jpg",
-  },
-];
+interface Lead {
+  id: number;
+  name: string;
+  email: string;
+  phone: string;
+  message?: string;
+}
 
 const TableLeads = () => {
-  const [leads, setLeads] = useState(initialLeads);
+  const {leads, setLeads, loading} = useLeads();
+  const [leadEditando, setLeadEditando] = useState<Lead | null>(null);
   const [modalNovoLead, setModalNovoLead] = useState(false);
   const [modalEditarLead, setModalEditarLead] = useState<null | number>(null);
   const [modalExcluirLead, setModalExcluirLead] = useState<null | number>(null);
@@ -35,66 +27,126 @@ const TableLeads = () => {
 
   // Funções para abrir modais
   const handleNovoLead = () => setModalNovoLead(true);
-  const handleEdit = (id: number) => setModalEditarLead(id);
   const handleDelete = (id: number) => setModalExcluirLead(id);
 
   // Fechar modais
   const handleFecharModalNovo = () => setModalNovoLead(false);
-  const handleFecharModalEditar = () => setModalEditarLead(null);
+  const handleFecharModalEditar = () => {
+    setModalEditarLead(null)
+    setLeadEditando(null)
+  };
   const handleFecharModalExcluir = () => setModalExcluirLead(null);
   const handleFecharModalAlerta = () => setModalAlerta(null);
 
   // Submissão de lead novo
-  const handleSubmitLead = (data: {
+  const handleSubmitLead = async (data: {
     nome: string;
     email: string;
     telefone: string;
     mensagem: string;
   }) => {
-    setLeads((prevLeads) => [
-      ...prevLeads,
-      {
-        id: prevLeads.length > 0 ? prevLeads[prevLeads.length - 1].id + 1 : 1,
-        ...data,
-        avatar: "https://randomuser.me/api/portraits/lego/1.jpg", // default avatar
-      },
-    ]);
-    setModalNovoLead(false);
-    setModalAlerta({
-      mensagem: "Lead cadastrado com sucesso!",
-      tipo: "sucesso",
-    });
+    try {
+      const token = localStorage.getItem("token")
+      const response = await axios.post(
+        "http://localhost:3001/api/leads", {
+          name: data.nome,
+          email: data.email,
+          phone: data.telefone,
+          message: data.mensagem
+        }, {
+          headers: { Authorization: `Bearer ${token}`}
+        }
+      )
+
+      console.log(response)
+
+      setLeads((prevLeads)=> [...prevLeads, response.data.lead])
+      setModalNovoLead(false);
+      setModalAlerta({
+        mensagem: "Lead cadastrado com sucesso",
+        tipo: "sucesso"
+      })
+      
+    } catch (error) {
+      setModalAlerta({
+        mensagem: `Erro ao cadastrar lead! ${error}`,
+        tipo: "erro"
+      })
+    }
   };
 
+  const handleEdit = (id: number) => {
+    const lead = leads.find((lead) => lead.id === id )
+    setLeadEditando(lead)
+    setModalEditarLead(id)
+  }
+
   // Submissão de edição
-  const handleSubmitEditarLead = (data: {
-    nome: string;
+  const handleSubmitEditarLead = async (data: {
+    name: string;
     email: string;
-    telefone: string;
-    mensagem: string;
+    phone: string;
+    message: string;
   }) => {
-    if (modalEditarLead !== null) {
-      setLeads((prevLeads) =>
-        prevLeads.map((lead) =>
-          lead.id === modalEditarLead
-            ? { ...lead, ...data }
-            : lead
-        )
-      );
+    if(!leadEditando) return;
+    try {
+      const token = localStorage.getItem("token");
+      await axios.patch(
+        `http://localhost:3001/api/leads/${leadEditando.id}`,
+        {
+          name: data.nome,
+          email: data.email,
+          phone: data.telefone,
+          message: data.mensagem
+        },
+        {
+          headers: {Authorization: `Baerer ${token}`}
+        }
+      )
+      setModalEditarLead(null)
+      setLeadEditando(null)
+      setLeads((prevLeads) => 
+        prevLeads.map((lead) => 
+          lead.id === leadEditando.id 
+          ? {
+          ...lead,
+          name: data.nome,
+          email: data.email,
+          phone: data.telefone,
+          message: data.mensagem,
+        } 
+          : lead) 
+      )
+
+
+      setModalAlerta({
+        mensagem: "Lead atualizado com sucesso!",
+        tipo: "sucesso"
+      })
+ 
+    } catch (error) {
+      setModalAlerta({
+        mensagem: `Erro ao atualizar Lead ${error}`,
+        tipo: "erro"
+      })
     }
-    setModalEditarLead(null);
-    setModalAlerta({
-      mensagem: "Lead atualizado com sucesso!",
-      tipo: "sucesso",
-    });
   };
+
+
 
   // Confirmação de exclusão
   const handleConfirmarExcluir = () => {
-    // Aqui você pode adicionar a lógica para excluir o lead
+    if(modalExluirLead !== null){
+      setLeads((prevLeads) => prevLeads.filter((lead) => lead.id !== modalExcluirLead ))
+    }
     setModalExcluirLead(null);
     setModalAlerta({ mensagem: "Lead excluído com sucesso!", tipo: "sucesso" });
   };
+
+  if(loading){
+    return
+    <div classname="p-8">Carregando...</div>
+  }
 
   return (
     <>
@@ -126,20 +178,15 @@ const TableLeads = () => {
             <tbody>
               {leads.map((lead) => (
                 <tr
-                  key={lead.id}
+                  key={lead?.id}
                   className="border-b last:border-b-0 hover:bg-gray-50"
                 >
                   <td className="px-6 py-4 flex items-center gap-2">
-                    <img
-                      src={lead.avatar}
-                      alt={lead.nome}
-                      className="h-8 w-8 rounded-full"
-                    />
-                    <span>{lead.nome}</span>
+                    <span>{lead?.name || lead?.nome || ""}</span>
                   </td>
-                  <td className="px-6 py-4">{lead.telefone}</td>
-                  <td className="px-6 py-4">{lead.email}</td>
-                  <td className="px-6 py-4">{lead.mensagem}</td>
+                  <td className="px-6 py-4">{lead?.phone}</td>
+                  <td className="px-6 py-4">{lead?.email}</td>
+                  <td className="px-6 py-4">{(!lead?.message || lead?.message.length === 0) ? "Sem comentários" : lead?.message}</td>
                   <td className="px-6 py-4">
                     <div className="flex gap-2">
                       <button
@@ -184,11 +231,17 @@ const TableLeads = () => {
       )}
 
       {/* Modal para editar lead */}
-      {modalEditarLead !== null && (
+      {modalEditarLead !== null && leadEditando && (
         <FormularioLeads
-          initialData={leads.find((l) => l.id === modalEditarLead)}
+          initialData={{
+            nome: leadEditando.name || "",
+            email: leadEditando.email || "",
+            telefone: leadEditando.phone || "",
+            mensagem: leadEditando.message || "",
+          }}
           onSubmit={handleSubmitEditarLead}
           onClose={handleFecharModalEditar}
+          editar
         />
       )}
 

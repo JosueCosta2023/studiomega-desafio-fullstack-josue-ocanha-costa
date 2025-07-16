@@ -15,6 +15,7 @@ router.get("/", authenticateJWT, async (req, res)=> {
                 email: true,
                 phone: true,
                 userId: true,
+                message: true
             }
         })
 

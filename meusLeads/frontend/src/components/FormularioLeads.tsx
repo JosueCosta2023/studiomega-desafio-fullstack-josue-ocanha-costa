@@ -11,17 +11,19 @@ interface FormularioLeadsProps {
   onSubmit: (data: LeadData) => void;
   onClose: () => void;
   initialData?: LeadData;
+  editar?: boolean;
 }
 
 const FormularioLeads = ({
   onSubmit,
   onClose,
-  initialData,
+  initialData = {nome: "", email: "", telefone: "", mensagem: ""},
+  editar
 }: FormularioLeadsProps) => {
-  const [nome, setNome] = useState(initialData?.nome || "");
-  const [email, setEmail] = useState(initialData?.email || "");
-  const [telefone, setTelefone] = useState(initialData?.telefone || "");
-  const [mensagem, setMensagem] = useState(initialData?.mensagem || "");
+  const [nome, setNome] = useState(initialData.nome || "");
+  const [email, setEmail] = useState(initialData.email || "");
+  const [telefone, setTelefone] = useState(initialData.telefone || "");
+  const [mensagem, setMensagem] = useState(initialData.mensagem || "");
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -39,7 +41,7 @@ const FormularioLeads = ({
           ×
         </button>
         <h2 className="text-2xl font-bold text-[#7a183a] mb-6 text-center">
-          {initialData ? "Editar Lead" : "Novo Lead"}
+          {editar ? "Editar Lead" : "Novo Lead"}
         </h2>
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
@@ -114,7 +116,7 @@ const FormularioLeads = ({
             type="submit"
             className="w-full bg-[#7a183a] hover:bg-[#5a102a] text-white font-semibold py-2 rounded-lg transition"
           >
-            Cadastrar
+            {editar ? "Salvar" : "Cadastrar"}
           </button>
         </form>
       </div>
