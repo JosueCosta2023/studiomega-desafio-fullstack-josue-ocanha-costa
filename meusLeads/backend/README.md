@@ -27,7 +27,7 @@ Antes de iniciar, verifique se você tem instalado:
 
    ```bash
    git clone https://github.com/JosueCosta2023/studiomega-desafio-fullstack-josue-ocanha-costa.git
-   cd seu-repo/meusLeads/backend
+   cd studiomega-desafio-fullstack-josue-ocanha-costa/meusLeads/backend
    ```
 
 2. **Instale as dependências:**
