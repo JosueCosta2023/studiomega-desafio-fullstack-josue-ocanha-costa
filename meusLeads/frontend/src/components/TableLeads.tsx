@@ -24,6 +24,15 @@ const TableLeads = () => {
     mensagem: string;
     tipo?: "sucesso" | "erro";
   } | null>(null);
+  const [paginaAtual, setPaginaAtual] = useState(1)
+  const leadsPorPagina = 5;
+
+  // Calculo de paginação
+  const leadsOrdenadosDesc = [...leads].sort((a, b) => b.id - a.id)
+  const indiceUltimoLead = paginaAtual * leadsPorPagina;
+  const indicePrimeiroLead = indiceUltimoLead - leadsPorPagina;
+  const leadsPaginados = leadsOrdenadosDesc.slice(indicePrimeiroLead, indiceUltimoLead);
+  const totalPaginas = Math.ceil(leads.length / leadsPorPagina)
 
   // Funções para abrir modais
   const handleNovoLead = () => setModalNovoLead(true);
@@ -77,16 +86,16 @@ const TableLeads = () => {
 
   const handleEdit = (id: number) => {
     const lead = leads.find((lead) => lead.id === id )
-    setLeadEditando(lead)
+    setLeadEditando(lead ?? null)
     setModalEditarLead(id)
   }
 
   // Submissão de edição
   const handleSubmitEditarLead = async (data: {
-    name: string;
+    nome: string;
     email: string;
-    phone: string;
-    message: string;
+    telefone: string;
+    mensagem: string;
   }) => {
     if(!leadEditando) return;
     try {
@@ -135,17 +144,28 @@ const TableLeads = () => {
 
 
   // Confirmação de exclusão
-  const handleConfirmarExcluir = () => {
-    if(modalExluirLead !== null){
-      setLeads((prevLeads) => prevLeads.filter((lead) => lead.id !== modalExcluirLead ))
+  const handleConfirmarExcluir = async () => {
+    if(modalExcluirLead !== null){
+      try {
+
+        const token = localStorage.getItem("token");
+        await axios.delete(`http://localhost:3001/api/leads/${modalExcluirLead}`, {headers: {Authorization: `Bearer ${token}`}})
+        setLeads((prevLeads) =>
+          prevLeads.filter((lead) => lead.id !== modalExcluirLead ))
+        
+        setModalAlerta({ mensagem: "Lead excluído com sucesso!", 
+          tipo: "sucesso" });
+        
+      } catch (error) {
+        setModalAlerta({mensagem: `Erro ao excluir lead ${error}`, tipo: "erro"})
+      }
     }
     setModalExcluirLead(null);
-    setModalAlerta({ mensagem: "Lead excluído com sucesso!", tipo: "sucesso" });
+    
   };
 
   if(loading){
-    return
-    <div classname="p-8">Carregando...</div>
+    return <div className="p-8">Carregando...</div>
   }
 
   return (
@@ -176,13 +196,13 @@ const TableLeads = () => {
               </tr>
             </thead>
             <tbody>
-              {leads.map((lead) => (
+              {leadsPaginados.map((lead) => (
                 <tr
                   key={lead?.id}
                   className="border-b last:border-b-0 hover:bg-gray-50"
                 >
                   <td className="px-6 py-4 flex items-center gap-2">
-                    <span>{lead?.name || lead?.nome || ""}</span>
+                    <span>{lead?.name || ""}</span>
                   </td>
                   <td className="px-6 py-4">{lead?.phone}</td>
                   <td className="px-6 py-4">{lead?.email}</td>
@@ -212,11 +232,17 @@ const TableLeads = () => {
         </div>
         {/* Paginação simples */}
         <div className="flex justify-between items-center mt-4 text-sm text-gray-500">
-          <button className="px-3 py-1 rounded hover:bg-gray-200">
+          <button className="px-3 py-1 rounded hover:bg-gray-200"
+          onClick={() => setPaginaAtual((page) => Math.max(page -1, 1))}
+          disabled={paginaAtual === 1}
+          >
             Anterior
           </button>
-          <span>Página 1 de 1</span>
-          <button className="px-3 py-1 rounded hover:bg-gray-200">
+          <span>Página {paginaAtual} de {totalPaginas}</span>
+          <button className="px-3 py-1 rounded hover:bg-gray-200"
+          onClick={() => setPaginaAtual((page) => Math.max(page + 1, totalPaginas))}
+          disabled={paginaAtual === totalPaginas}
+          >
             Próxima
           </button>
         </div>
