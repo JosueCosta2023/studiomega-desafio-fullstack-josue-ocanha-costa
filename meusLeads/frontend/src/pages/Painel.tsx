@@ -1,8 +1,30 @@
-import { Settings, Table } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { LogOut, Settings, Table } from "lucide-react";
 import { NavLink, Outlet } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { jwtDecode } from "jwt-decode";
 
 const Painel = () => {
+
+  const token = localStorage.getItem("token");
+  let user: any = null;
+
+  if(token){
+    try {
+      user = jwtDecode(token)
+    } catch {
+      user = null
+    }
+  }
+  console.log(user)
+
+  const handleLogout = () => {
+    localStorage.removeItem("token")
+    window.location.reload();
+  }
+
+  const nome = user.name.split(" ");
+
+  console.log(nome)
     
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -51,13 +73,14 @@ const Painel = () => {
           </ul>
         </nav>
 
-        <div className="mt-auto text-left">
-          <Link
-            to="/"
-            className="text-gray-500 hover:text-[#7a183a] text-sm transition-colors"
+        <div className="mt-auto">
+          <button
+            onClick={handleLogout}
+            className="text-gray-500 flex gap-2 hover:text-[#7a183a] text-sm transition-colors"
           >
             Sair
-          </Link>
+            <LogOut size={18}/>
+          </button>
         </div>
       </aside>
 
@@ -67,8 +90,9 @@ const Painel = () => {
         <header className="flex items-center justify-between bg-white px-8 py-6 border-b">
           <div>
             <span className="text-gray-500 text-sm">
-              Olá, Josué. Bem-vindo de volta.
-            </span>
+              Olá, <span className="text-primary font-bold">{nome[0] || "usuario"}</span>, seja bem-vindo.
+            </span> <br />
+            <i className="text-xs text-gray-600 opacity-35 flex">{user?.email}</i>
           </div>
           <div>
             <img

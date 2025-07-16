@@ -132,7 +132,7 @@ router.post("/login", async (req, res) => {
         // geração do token
         const token = jwt.sign(
             // Payload
-            { id: user.id, email: user.email },
+            { id: user.id, email: user.email, name: user.name },
             // Chave
             process.env.JWT_SECRET,
             // Tempo de expiração
