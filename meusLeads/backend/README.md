@@ -26,7 +26,7 @@ Antes de iniciar, verifique se você tem instalado:
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repo.git
+   git clone https://github.com/JosueCosta2023/studiomega-desafio-fullstack-josue-ocanha-costa.git
    cd seu-repo/meusLeads/backend
    ```
 
