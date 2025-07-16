@@ -1,69 +1,87 @@
-# React + TypeScript + Vite
+# 🧾 Meus Leads - Frontend
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+> Interface do projeto **Meus Leads**, desenvolvida com React.ts para consumo de API e gerenciamento de leads.
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 📦 Repositórios
 
-## Expanding the ESLint configuration
+- 🔗 [Backend do projeto](https://github.com/seu-usuario/seu-repo/tree/main/meusLeads/backend)
+- 🌐 Frontend: `meusLeads/frontend` (você está aqui)
 
-If you are developing a production application, we recommend updating the configuration to enable type-aware lint rules:
+---
 
-```js
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
+## ✅ Pré-requisitos
 
-      // Remove tseslint.configs.recommended and replace with this
-      ...tseslint.configs.recommendedTypeChecked,
-      // Alternatively, use this for stricter rules
-      ...tseslint.configs.strictTypeChecked,
-      // Optionally, add this for stylistic rules
-      ...tseslint.configs.stylisticTypeChecked,
+Antes de iniciar, verifique se você tem instalado:
 
-      // Other configs...
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
+- [Node.js](https://nodejs.org/) — recomendado versão 18 ou superior  
+- [npm](https://www.npmjs.com/) ou [yarn](https://yarnpkg.com/) — gerenciadores de pacotes
+
+---
+
+## 🛠️ Instalação
+
+1. **Clone o repositório:**
+
+   ```bash
+   git clone https://github.com/seu-usuario/seu-repo.git
+   cd seu-repo/meusLeads/frontend
+   ```
+
+2. **Instale as dependências:**
+
+   ```bash
+   npm install
+   # ou
+   yarn install
+   ```
+
+3. **Configure as variáveis de ambiente (opcional):**
+
+   Se necessário, crie um arquivo `.env` na raiz do projeto com o conteúdo:
+
+   ```env
+   REACT_APP_API_URL=http://localhost:3001
+   ```
+
+---
+
+## 🚀 Execução
+
+Para iniciar o projeto em modo desenvolvimento:
+
+```bash
+npm run dev
+
 ```
 
-You can also install [eslint-plugin-react-x](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-x) and [eslint-plugin-react-dom](https://github.com/Rel1cx/eslint-react/tree/main/packages/plugins/eslint-plugin-react-dom) for React-specific lint rules:
+---
 
-```js
-// eslint.config.js
-import reactX from 'eslint-plugin-react-x'
-import reactDom from 'eslint-plugin-react-dom'
+## 📜 Scripts disponíveis
 
-export default tseslint.config([
-  globalIgnores(['dist']),
-  {
-    files: ['**/*.{ts,tsx}'],
-    extends: [
-      // Other configs...
-      // Enable lint rules for React
-      reactX.configs['recommended-typescript'],
-      // Enable lint rules for React DOM
-      reactDom.configs.recommended,
-    ],
-    languageOptions: {
-      parserOptions: {
-        project: ['./tsconfig.node.json', './tsconfig.app.json'],
-        tsconfigRootDir: import.meta.dirname,
-      },
-      // other options...
-    },
-  },
-])
-```
+| Comando                    | Descrição                                |
+|----------------------------|--------------------------------------------|
+| `npm run dev` | Inicia o servidor de desenvolvimento       |
+
+
+---
+
+## ⚙️ Tecnologias Utilizadas
+
+- [React.js](https://reactjs.org/)  
+- [Axios](https://axios-http.com/)  
+- [Tailwind CSS](https://tailwindcss.com/) (ou outro framework de estilos, conforme aplicável)
+
+---
+
+## 🧠 Contribuindo
+
+Contribuições são bem-vindas!  
+Abra uma *issue* ou envie um *pull request* com suas sugestões ou correções.
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](https://opensource.org/licenses/MIT).
