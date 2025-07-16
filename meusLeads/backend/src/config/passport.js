@@ -12,22 +12,20 @@ passport.use(new GoogleStrategy({
     async function(accessToken, refreshToken, profile, done) {
         try {
             // Busca por usuario jka cadastrado
-            let user = await prisma.user.findUnique({
+            const user = await prisma.user.upsert({
                 where: {
-                    googleId: profile.id
+                    email: profile.emails[0].value
+                },
+                update: {
+                    name: profile.displayName,
+                    picture: profile.photos[0]?.value
+                },
+                create: {
+                    email: profile.emails[0].value,
+                    name: profile.displayName,
+                    picture: profile.photos[0].value
                 }
             })
-        
-            // Se nao encontrar
-            if(!user){
-                user = await prisma.user.create({
-                    data: {
-                        name: profile.displayName,
-                        email: profile.emails[0].value,
-                        googleId: profile.id
-                    }
-                })
-            }
 
             return done(null, user)
             

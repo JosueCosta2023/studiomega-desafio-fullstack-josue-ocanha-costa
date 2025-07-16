@@ -15,7 +15,8 @@ const Painel = () => {
       user = null
     }
   }
-  console.log(user)
+
+   console.log(user)
 
   const handleLogout = () => {
     localStorage.removeItem("token")
@@ -23,8 +24,6 @@ const Painel = () => {
   }
 
   const nome = user.name.split(" ");
-
-  console.log(nome)
     
   return (
     <div className="min-h-screen bg-gray-100 flex">
@@ -95,8 +94,9 @@ const Painel = () => {
             <i className="text-xs text-gray-600 opacity-35 flex">{user?.email}</i>
           </div>
           <div>
+                
             <img
-              src="https://randomuser.me/api/portraits/men/32.jpg"
+              src={user?.picture || "https://randomuser.me/api/portraits/lego/5.jpg"}
               alt="Avatar"
               className="h-9 w-9 rounded-full border"
             />

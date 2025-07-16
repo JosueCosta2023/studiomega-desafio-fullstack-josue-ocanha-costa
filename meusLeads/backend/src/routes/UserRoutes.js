@@ -11,7 +11,7 @@ const authenticateJWT = require("../middlewares/auth");
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }))
 
 router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
-    const fwt = require("jsonwebtoken")
+    const jwt = require("jsonwebtoken")
 
     const token = jwt.sign(
         {id:req.user.id, email: req.user.email, name: req.user.name, picture: req.user.picture},
@@ -20,6 +20,8 @@ router.get("/google/callback", passport.authenticate("google", { failureRedirect
 
         {expiresIn: "1h"}
     )
+
+    console.log("Console do callbacl", token)
 
     res.redirect(`http://localhost:5173/auth/callback?token=${token}`)
 })
@@ -142,14 +144,14 @@ router.post("/login", async (req, res) => {
         // geração do token
         const token = jwt.sign(
             // Payload
-            { id: user.id, email: user.email, name: user.name },
+            { id: user.id, email: user.email, name: user.name, picture: user.picture },
             // Chave
             process.env.JWT_SECRET,
             // Tempo de expiração
             { expiresIn: "1h" }
         )
 
-        res.status(200).json({ message: "Login realizado com sucesso: ", token, user: { id: user.id, name: user.name, email: user.email } })
+        res.status(200).json({ message: "Login realizado com sucesso: ", token, user: { id: user.id, name: user.name, email: user.email, picture: user.picture } })
 
 
     } catch (error) {
