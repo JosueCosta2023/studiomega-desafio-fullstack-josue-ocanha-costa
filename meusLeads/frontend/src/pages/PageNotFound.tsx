@@ -1,6 +1,9 @@
-import { Link } from "react-router-dom";
+import { Link, useLocation } from "react-router-dom";
 
 const PageNotFound = () => {
+  const location = useLocation()
+
+  const isPainel = location.pathname.startsWith("/painel")
   return (
     <div className="mt-[10%] flex items-center justify-center">
       <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md flex flex-col items-center">
@@ -12,12 +15,12 @@ const PageNotFound = () => {
         <p className="text-gray-500 mb-6 text-center">
           Ops! A página que você procura não existe ou foi movida.
         </p>
-        <Link
+        {!isPainel && (<Link
           to="/"
           className="bg-[#7a183a] hover:bg-[#5a102a] text-white font-semibold py-2 px-6 rounded-lg transition"
         >
           Voltar para o início
-        </Link>
+        </Link>)}
       </div>
     </div>
   );

@@ -26,17 +26,19 @@ const Login = () =>  {
   };
 
   const handleGoogleLogin = () => {
-    alert("Login com Google ainda não implementado.");
+    window.location.href = "http://localhost:3001/api/auth/google";
   };
 
   return (
     <div className="min-h-screen flex items-center justify-center ">
-      <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-md">
+      <div className="bg-white rounded-xl shadow-2xl p-8 w-full max-w-md">
         <div className="flex flex-col items-center mb-6">
           <img src="/logo.png" alt="Logo" className="h-12 mb-2" />
           <h1 className="text-2xl font-bold text-gray-800 mb-1">Bem-vindo!</h1>
           <p className="text-gray-500 text-sm">Acesse sua conta para continuar</p>
         </div>
+
+
         <form onSubmit={handleSubmit} className="space-y-5">
           <div>
             <label className="block text-left text-gray-700 text-sm mb-1" htmlFor="email">
@@ -52,6 +54,7 @@ const Login = () =>  {
               placeholder="seu@email.com"
             />
           </div>
+
           <div>
             <label className="block text-left text-gray-700 text-sm mb-1" htmlFor="senha">
               Senha
@@ -69,6 +72,7 @@ const Login = () =>  {
           {erro && (
             <div className="text-red-600 text-sm text-center">{erro}</div>
           )}
+
           <button
             type="submit"
             disabled={loading}

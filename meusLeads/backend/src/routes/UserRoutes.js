@@ -11,7 +11,17 @@ const authenticateJWT = require("../middlewares/auth");
 router.get("/google", passport.authenticate("google", { scope: ["profile", "email"] }))
 
 router.get("/google/callback", passport.authenticate("google", { failureRedirect: "/login" }), (req, res) => {
-    res.json({ user: req.user })
+    const fwt = require("jsonwebtoken")
+
+    const token = jwt.sign(
+        {id:req.user.id, email: req.user.email, name: req.user.name, picture: req.user.picture},
+
+        process.env.JWT_SECRET,
+
+        {expiresIn: "1h"}
+    )
+
+    res.redirect(`http://localhost:5173/auth/callback?token=${token}`)
 })
 
 router.post("/users", async (req, res) => {
