@@ -105,7 +105,7 @@ router.put("/users/:id", authenticateJWT, async (req, res) => {
     }
 })
 
-router.post("/users/auth", async (req, res) => {
+router.post("/login", async (req, res) => {
 
     const { email, password } = req.body;
 

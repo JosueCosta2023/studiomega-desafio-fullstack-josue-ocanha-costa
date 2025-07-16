@@ -13,7 +13,10 @@ app.use(session({
   saveUninitialized: false
 }))
 
-app.use(cors());
+app.use(cors({
+  origin: "http://localhost:5173", // ou a porta do seu frontend
+  credentials: true
+}));
 app.use(express.json());
 app.use(passport.initialize());
 

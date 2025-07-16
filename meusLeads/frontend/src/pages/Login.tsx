@@ -1,13 +1,28 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+// ajuste o caminho se necessário
+import { api } from "@/service/api"; 
 
 const Login = () =>  {
   const [email, setEmail] = useState("");
-  const [senha, setSenha] = useState("");
+  const [password, setPassword] = useState("");
+  const [loading, setLoading] = useState(false);
+  const [erro, setErro] = useState("");
+  const navigate = useNavigate();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Login realizado!");
+    setErro("");
+    setLoading(true);
+    try {
+      const response = await api.post("/auth/login", { email, password });
+      localStorage.setItem("token", response.data.token);
+      navigate("/painel");
+    } catch {
+      setErro("Usuário ou senha inválidos!");
+    } finally {
+      setLoading(false);
+    }
   };
 
   const handleGoogleLogin = () => {
@@ -45,21 +60,25 @@ const Login = () =>  {
               id="senha"
               type="password"
               required
-              value={senha}
-              onChange={e => setSenha(e.target.value)}
+              value={password}
+              onChange={e => setPassword(e.target.value)}
               className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-[#7a183a] transition"
               placeholder="********"
             />
           </div>
-          <Link
-            to="/painel"
-            className="block w-full text-center bg-[#7a183a] hover:bg-[#5a102a] text-white font-semibold py-2 rounded-lg transition"
+          {erro && (
+            <div className="text-red-600 text-sm text-center">{erro}</div>
+          )}
+          <button
+            type="submit"
+            disabled={loading}
+            className="block w-full text-center bg-[#7a183a] hover:bg-[#5a102a] text-white font-semibold py-2 rounded-lg transition disabled:opacity-60"
           >
-            Entrar
-          </Link>
+            {loading ? "Entrando..." : "Entrar"}
+          </button>
         </form>
 
-         {/* Botão de login com Google */}
+        {/* Botão de login com Google */}
         <button
           type="button"
           onClick={handleGoogleLogin}
@@ -83,4 +102,4 @@ const Login = () =>  {
   );
 }
 
-export default Login
+export default Login;
