@@ -25,8 +25,8 @@ Antes de iniciar, verifique se você tem instalado:
 1. **Clone o repositório:**
 
    ```bash
-   git clone https://github.com/seu-usuario/seu-repo.git
-   cd seu-repo/meusLeads/frontend
+   git clone https://github.com/JosueCosta2023/studiomega-desafio-fullstack-josue-ocanha-costa.git
+   cd studiomega-desafio-fullstack-josue-ocanha-costa/meusLeads/frontend
    ```
 
 2. **Instale as dependências:**
