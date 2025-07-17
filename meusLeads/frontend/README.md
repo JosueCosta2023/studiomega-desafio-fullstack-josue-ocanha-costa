@@ -6,7 +6,7 @@
 
 ## 📦 Repositórios
 
-- 🔗 [Backend do projeto](https://github.com/seu-usuario/seu-repo/tree/main/meusLeads/backend)
+- 🔗 [Backend do projeto](https://github.com/JosueCosta2023/studiomega-desafio-fullstack-josue-ocanha-costa/tree/main/meusLeads/backend)
 - 🌐 Frontend: `meusLeads/frontend` (você está aqui)
 
 ---
